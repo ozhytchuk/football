@@ -3,5 +3,6 @@
     @include('admin.partials.leagues.left_menu')
 @endsection
 @section('content')
-    @include('admin.partials.leagues.index')
+    @include('admin.layouts.errors')
+    @include('admin.partials.leagues.create')
 @stop
