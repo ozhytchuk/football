@@ -39,19 +39,9 @@
     </div>
 </nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar" id="my-nav"
-             style="margin-top: 56px; padding: 0;">
-            <ul class="nav nav-pills flex-column">
-                @yield('leftMenu')
-            </ul>
-        </nav>
+<div class="container" style="margin-top: 56px;">
 
-        <main class="col-md-10 sidebar" style="margin-top: 56px;">
             @yield('content')
-        </main>
-    </div>
 </div>
 </body>
 </html>

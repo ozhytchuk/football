@@ -11,7 +11,7 @@
             <th>ID</th>
             <th>League</th>
             <th>Country</th>
-            <th>Actions</th>
+            <th colspan="2">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -22,22 +22,20 @@
                 @foreach($leagues->countries as $country)
                     <td>{{ $country->name_of_country }}</td>
                 @endforeach
-                <td class="text-center">
-                    <a href="{{ route('leagues.edit', ['id' => $leagues->id]) }}" class="btn btn-primary">
-                        Edit
-                    </a>
-                    <a href="#" class="btn btn-danger" id="edit-icon" onclick="var result = confirm('Are you sure?'); if (result) {
-                        event.preventDefault();
-                        document.getElementById('delete-form').submit();
-                    }">
-                        Delete
-                    </a>
-                    <?=$leagues->id?>
-                    <form id="delete-form" action="{{ route('leagues.destroy', ['id' => $leagues->id]) }}" method="post"
-                          style="display: none">
-                        @csrf
+                <td class="text-center" id="actions">
+                    <div class="edit-button">
+                        <a href="{{ route('leagues.edit', ['id' => $leagues->id]) }}" class="btn btn-primary">
+                            Edit
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <form action="{{ route('leagues.destroy', ['id' => $leagues->id]) }}" method="POST">
                         @method('DELETE')
-
+                        @csrf
+                        <div class="delete-button">
+                            <button class="btn btn-danger delete">Delete</button>
+                        </div>
                     </form>
                 </td>
         @endforeach
@@ -52,5 +50,13 @@
 
     .back-to-site {
         float: right;
+    }
+
+    .edit-button {
+        float: right;
+    }
+
+    .delete-button {
+        float: left;
     }
 </style>

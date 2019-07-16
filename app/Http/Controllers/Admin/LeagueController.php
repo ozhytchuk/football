@@ -127,8 +127,8 @@ class LeagueController extends Controller
      */
     public function destroy($id)
     {
-        dd($id);
         $league = League::find($id);
+        CountryLeague::where('league_id', '=', $id)->delete();
 
         $league->delete();
 

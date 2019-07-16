@@ -39,7 +39,7 @@
             <div class="on-div"><a href="{{ route('leagues.index') }}">Leagues</a></div>
         </div>
         <div class="line_block">
-            <div class="on-div"><a href="#">Teams</a></div>
+            <div class="on-div"><a href="{{ route('teams.index') }}">Teams</a></div>
         </div>
         <div class="line_block">
             <div class="on-div"><a href="#">Players</a></div>
