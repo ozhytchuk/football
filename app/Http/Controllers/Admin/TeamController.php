@@ -18,7 +18,8 @@ class TeamController extends Controller
     public function index()
     {
         return view('admin.pages.teams.index', [
-            'allLeagues' => League::all(),
+            'allTeams' => Team::with('leagues')->get(),
+            'leaguesWithCountry' => League::with('countries')->get(),
             'counter' => 1,
         ]);
     }
@@ -46,7 +47,7 @@ class TeamController extends Controller
         $goalsDifference = ($request->input('gf') - $request->input('ga'));
         $points = (($request->input('win')*3) + ($request->input('draw')*1));
 
-        Team::create([
+        $team = Team::create([
             'team_title' => $request->input('team'),
             'league_id' => $request->input('league_id'),
             'gp' => $request->input('gp'),
@@ -59,7 +60,8 @@ class TeamController extends Controller
             'points' => $points,
         ]);
 
-        return redirect(route('teams.create'));
+        return redirect(route('teams.show', ['id' => $team->id]))->with('status',
+            'Your record has been successfully saved');
     }
 
     /**
@@ -68,9 +70,14 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Team $team)
     {
-        //
+        $teams = Team::with('leagues')->find($team->getAttribute('id'));
+
+        return view('admin.pages.teams.show', [
+            'teamInfo' => Team::with('leagues')->find($team),
+            'leaguesWithCountry' => League::with('countries')->where('id', '=', $teams->league_id)->get(),
+        ]);
     }
 
     /**

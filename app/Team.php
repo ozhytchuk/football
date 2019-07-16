@@ -12,6 +12,6 @@ class Team extends Model
 
     public function leagues()
     {
-        return $this->hasOne(League::class, 'id');
+        return $this->hasMany(League::class, 'id', 'league_id');
     }
 }

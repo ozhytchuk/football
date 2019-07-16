@@ -1,4 +1,4 @@
-<h2>Add team</h2>
+<h2 class="page-header">Create new team</h2>
 <div class="container">
     <form action="{{ route('teams.store') }}" method="post">
         @csrf
@@ -41,5 +41,17 @@
         <button class="btn btn-success" style="cursor: pointer; float: right; margin-bottom: 2%;">
             Save
         </button>
+        <a href="{{ route('teams.index') }}" class="btn btn-outline-primary back-to-site">Back</a>
     </form>
 </div>
+<style>
+    .page-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .back-to-site {
+        float: right;
+        margin-right: 20px;
+    }
+</style>

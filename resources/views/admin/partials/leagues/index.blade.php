@@ -38,6 +38,7 @@
                         </div>
                     </form>
                 </td>
+            </tr>
         @endforeach
         </tbody>
     </table>
