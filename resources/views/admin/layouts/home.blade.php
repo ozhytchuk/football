@@ -56,7 +56,7 @@
         </div>
 
         <div class="line_block">
-            <div class="on-div"><a href="#">countries</a></div>
+            <div class="on-div"><a href="{{ route('countries.index') }}">countries</a></div>
         </div>
         <div class="line_block">
             <div class="on-div">DIV 8</div>
@@ -67,9 +67,6 @@
     </div>
 
 </div>
-<!-- ---------- вставим блоки на страницу --------- -->
-
-
 </body>
 <style>
     .on-div {

@@ -31,6 +31,7 @@ Route::prefix('admin')->group(function () {
             Route::resource('teams', 'Admin\TeamController')->parameters([
                 'teams' => 'team'
             ]);
+            Route::resource('countries', 'Admin\CountryController');
         });
     });
 });

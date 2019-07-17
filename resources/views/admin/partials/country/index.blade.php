@@ -1,38 +1,33 @@
-<h2>Leagues</h2>
-@if (session('success'))
+<h2 class="page-header">Countries</h2>
+@if (session('status'))
     <div class="alert alert-success">
-        {{ session('success') }}
+        {{ session('status') }}
     </div>
 @endif
-<div style="width: 50%; margin: auto;">
+<div style="margin: auto; width: 60%">
     <table class="table table-striped text-center">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>League</th>
-            <th>Country</th>
+            <th>#</th>
+            <th>Name of country</th>
             <th colspan="2">Actions</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($allLeagues as $leagues)
+        @foreach($allCountries as $countries)
             <tr>
                 <td>{{ $counter++ }}</td>
-                <td><a href="{{ route('leagues.show', ['id' => $leagues->id]) }}">{{ $leagues->league_title }}</a></td>
-                @forelse($leagues->countries as $country)
-                    <td>{{ $country->name_of_country }}</td>
-                @empty
-                    <td><span class="badge badge-warning" style="color: #1b1e21">unknown</span></td>
-                @endforelse
+                <td>
+                    <a href="{{ route('countries.show', ['id' => $countries->id]) }}">{{ $countries->name_of_country }}</a>
+                </td>
                 <td class="text-center" id="actions">
                     <div class="edit-button">
-                        <a href="{{ route('leagues.edit', ['id' => $leagues->id]) }}" class="btn btn-primary">
-                            Edit
-                        </a>
+                        <a href="{{ route('countries.edit', ['id' => $countries->id]) }}"
+                           class="btn btn-primary">Edit</a>
                     </div>
                 </td>
                 <td>
-                    <form action="{{ route('leagues.destroy', ['id' => $leagues->id]) }}" method="POST">
+                    <form action="{{ route('countries.destroy', ['id' => $countries->id]) }}" method="POST">
                         @method('DELETE')
                         @csrf
                         <div class="delete-button">
@@ -45,13 +40,18 @@
         </tbody>
     </table>
     <div class="create-new">
-        <a href="{{ route('leagues.create') }}" class="btn btn-success" style="float: right">Create new league</a>
+        <a href="{{ route('countries.create') }}" class="btn btn-success" style="float: right">New country</a>
     </div>
     <a href="{{ route('admin') }}" class="btn btn-outline-primary back-to-site">Back</a>
 </div>
 <style>
     th {
         text-align: center;
+        text-transform: uppercase;
+    }
+
+    td {
+        text-transform: capitalize;
     }
 
     .back-to-site {
@@ -65,5 +65,11 @@
 
     .delete-button {
         float: left;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 50px;
+        text-transform: uppercase;
     }
 </style>
