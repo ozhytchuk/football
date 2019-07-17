@@ -3,8 +3,8 @@
     <form action="{{ route('teams.store') }}" method="post">
         @csrf
         <div class="form-group">
-            <label for="team">TEAM</label>
-            <input id="team" type="text" class="form-control" name="team">
+            <label for="team_title">TEAM</label>
+            <input id="team_title" type="text" class="form-control" name="team_title">
         </div>
         <div class="form-group">
             <label for="league_id">Select a league</label>

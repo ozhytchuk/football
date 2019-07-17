@@ -18,7 +18,7 @@ class TeamController extends Controller
     public function index()
     {
         return view('admin.pages.teams.index', [
-            'allTeams' => Team::with('leagues')->get(),
+            'allTeams' => Team::with('leagues')->paginate(10),
             'leaguesWithCountry' => League::with('countries')->get(),
             'counter' => 1,
         ]);
@@ -31,7 +31,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.teams.create' , [
+        return view('admin.pages.teams.create', [
             'leagues' => League::all(),
         ]);
     }
@@ -39,16 +39,16 @@ class TeamController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(TeamRequest $request)
     {
         $goalsDifference = ($request->input('gf') - $request->input('ga'));
-        $points = (($request->input('win')*3) + ($request->input('draw')*1));
+        $points = (($request->input('win') * 3) + ($request->input('draw') * 1));
 
         $team = Team::create([
-            'team_title' => $request->input('team'),
+            'team_title' => $request->input('team_title'),
             'league_id' => $request->input('league_id'),
             'gp' => $request->input('gp'),
             'win' => $request->input('win'),
@@ -67,7 +67,7 @@ class TeamController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Team $team)
@@ -75,7 +75,7 @@ class TeamController extends Controller
         $teams = Team::with('leagues')->find($team->getAttribute('id'));
 
         return view('admin.pages.teams.show', [
-            'teamInfo' => Team::with('leagues')->find($team),
+            'teamInfo' => $teams,
             'leaguesWithCountry' => League::with('countries')->where('id', '=', $teams->league_id)->get(),
         ]);
     }
@@ -83,34 +83,54 @@ class TeamController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        return view('admin.pages.teams.edit',
+            [
+                'team' => Team::with('leagues')->find($id),
+                'allLeagues' => League::all(),
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TeamRequest $request, $id)
     {
-        //
+        $teamInfo = Team::find($id);
+
+        $goalsDifference = ($request->input('gf') - $request->input('ga'));
+        $points = (($request->input('win') * 3) + ($request->input('draw') * 1));
+
+        $teamInfo->fill($request->all());
+        $teamInfo->gd = $goalsDifference;
+        $teamInfo->points = $points;
+
+        $teamInfo->save();
+
+        return redirect(route('teams.show', ['id' => $teamInfo->id]))->with('status', 'Changes have been successfully saved');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $team = Team::find($id);
+
+        $team->delete();
+
+        return redirect(route('teams.index'))->with('status', 'Record has been successfully deleted');
     }
 }

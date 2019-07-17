@@ -42,6 +42,9 @@
         @endforeach
         </tbody>
     </table>
+    <div class="create-new">
+        <a href="{{ route('leagues.create') }}" class="btn btn-success" style="float: right">Create new league</a>
+    </div>
     <a href="{{ route('admin') }}" class="btn btn-outline-primary back-to-site">Back</a>
 </div>
 <style>
@@ -51,6 +54,7 @@
 
     .back-to-site {
         float: right;
+        margin-right: 20px;
     }
 
     .edit-button {

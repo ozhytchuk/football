@@ -1,4 +1,9 @@
 <h2 class="page-header">Teams</h2>
+@if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
 <div class="teams-table" style="margin: auto; width: 80%">
     <table class="table table-striped text-center">
         <thead>
@@ -6,7 +11,6 @@
             <th>#</th>
             <th>Team</th>
             <th>League</th>
-            <th>Country</th>
             <th colspan="2">Actions</th>
         </tr>
         </thead>
@@ -20,20 +24,15 @@
                     <td>{{ $league->league_title }}</td>
                 @endforeach
 
-                @foreach($leaguesWithCountry as $item)
-                    @foreach($item->countries as $country)
-                        <td>{{ $country->name_of_country }}</td>
-                    @endforeach
-                @endforeach
                 <td class="text-center" id="actions">
                     <div class="edit-button">
-                        <a href="#" class="btn btn-primary">
+                        <a href="{{ route('teams.edit', ['id' => $teams->id]) }}" class="btn btn-primary">
                             Edit
                         </a>
                     </div>
                 </td>
                 <td>
-                    <form action="#" method="POST">
+                    <form action="{{ route('teams.destroy', ['id' => $teams->id]) }}" method="POST">
                         @method('DELETE')
                         @csrf
                         <div class="delete-button">
@@ -49,6 +48,9 @@
         <a href="{{ route('teams.create') }}" class="btn btn-success" style="float: right">Create new team</a>
     </div>
     <a href="{{ route('admin') }}" class="btn btn-outline-primary back-to-site">Back</a>
+    <div class="pagination">
+        {{ $allTeams->links() }}
+    </div>
 </div>
 <style>
     th {

@@ -24,7 +24,7 @@ class TeamRequest extends FormRequest
     public function rules()
     {
         return [
-            'team' => 'required|string|min:5|max:75',
+            'team_title' => 'required|string|min:5|max:75',
             'league_id' => 'required|integer',
             'gp' => 'required|integer',
             'win' => 'required|integer',
