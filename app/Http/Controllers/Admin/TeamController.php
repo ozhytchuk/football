@@ -88,10 +88,13 @@ class TeamController extends Controller
      */
     public function edit($id)
     {
+        $team = Team::find($id);
+
         return view('admin.pages.teams.edit',
             [
                 'team' => Team::with('leagues')->find($id),
                 'allLeagues' => League::all(),
+                'currentLeague' => $team->league_id,
             ]
         );
     }

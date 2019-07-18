@@ -24,8 +24,19 @@
         <tbody>
         <tr>
             <td>{{ $teamInfo->team_title }}</td>
-            <td>{{ $teamInfo->leagues[0]->league_title }}</td>
-            <td>{{ $leaguesWithCountry[0]->countries[0]->name_of_country }}</td>
+
+            @forelse($teamInfo->leagues as $league)
+                <td>{{ $teamInfo->leagues[0]->league_title }}</td>
+            @empty
+                <td><span class="badge badge-warning" style="color: #1b1e21">unknown</span></td>
+            @endforelse
+            @forelse($leaguesWithCountry as $allCountry)
+                @foreach($allCountry->countries as $country)
+                    <td>{{ $country->name_of_country }}</td>
+                @endforeach
+            @empty
+                <td><span class="badge badge-warning" style="color: #1b1e21">unknown</span></td>
+            @endforelse
             <td>{{ $teamInfo->gp }}</td>
             <td>{{ $teamInfo->win }}</td>
             <td>{{ $teamInfo->draw }}</td>
@@ -60,5 +71,9 @@
 
     .edit {
         float: right;
+    }
+
+    td {
+        text-transform: capitalize;
     }
 </style>

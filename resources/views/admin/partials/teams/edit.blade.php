@@ -11,7 +11,11 @@
             <label for="league_id">Select a league</label>
             <select class="form-control" name="league_id" id="league_id">
                 @foreach($allLeagues as $leagues)
-                    <option value="{{ $leagues->id }}">{{ $leagues->league_title }}</option>
+                    @if($leagues->id === $currentLeague)
+                        <option value="{{ $leagues->id }}" selected>{{ $leagues->league_title }}</option>
+                    @else
+                        <option value="{{ $leagues->id }}">{{ $leagues->league_title }}</option>
+                    @endif
                 @endforeach
             </select>
         </div>
@@ -62,5 +66,10 @@
 
     label {
         text-transform: uppercase;
+    }
+
+    option[selected] {
+        font-weight: bold;
+        background-color: #d9edf7;
     }
 </style>

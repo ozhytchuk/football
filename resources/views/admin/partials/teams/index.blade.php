@@ -20,9 +20,11 @@
                 <td>{{ $counter++ }}</td>
                 <td><a href="{{ route('teams.show', ['team' => $teams->id]) }}">{{ $teams->team_title }}</a></td>
 
-                @foreach($teams->leagues as $league)
+                @forelse($teams->leagues as $league)
                     <td>{{ $league->league_title }}</td>
-                @endforeach
+                @empty
+                    <td><span class="badge badge-warning" style="color: #1b1e21">unknown</span></td>
+                @endforelse
 
                 <td class="text-center" id="actions">
                     <div class="edit-button">
