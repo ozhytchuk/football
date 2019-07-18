@@ -66,4 +66,8 @@
     .delete-button {
         float: left;
     }
+
+    td {
+        text-transform: capitalize;
+    }
 </style>

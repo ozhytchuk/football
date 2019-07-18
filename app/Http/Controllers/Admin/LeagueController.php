@@ -86,7 +86,8 @@ class LeagueController extends Controller
 
         return view('admin.pages.leagues.edit', [
             'league' => $league,
-            'countries' => Country::all(),
+            'allCountries' => Country::all()->sortBy('name_of_country'),
+            'currentCountry' => CountryLeague::with('hasCountry')->where('league_id', $id)->get(),
         ]);
     }
 
@@ -101,19 +102,20 @@ class LeagueController extends Controller
     {
         $league = League::find($id);
         $country = CountryLeague::all()->where('league_id', '=', $id);
+        $first = $country->first();
 
-        if (!$league) {
-            return back()->with('error', 'Something went wrong');
+        if (!empty($first)) {
+            $first->league_id = $league->id;
+            $first->country_id = $request->input('country_id');
+            $first->save();
+        } else {
+            CountryLeague::create([
+                'league_id' => $league->id,
+                'country_id' => $request->input('country_id'),
+            ]);
         }
-
         $league->league_title = $request->input('league');
-        foreach ($country as $c) {
-            $c->league_id = $league->id;
-            $c->country_id = $request->input('country_id');
-        }
-
         $league->save();
-        $c->save();
 
         return redirect(route('leagues.index'))->with('success',
             'Changes have been successfully saved');

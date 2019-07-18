@@ -10,8 +10,19 @@
         <div class="form-group">
             <label for="country_id">Select a country</label>
             <select class="form-control" name="country_id" id="country_id" required>
-                @foreach($countries as $country)
-                    <option value="{{ $country->id }}">{{ $country->name_of_country }}</option>
+                @foreach($currentCountry as $countries)
+                    @foreach($countries->hasCountry as $current)
+                        <option value="{{ $current->id }}" selected>{{ $current->name_of_country }}</option>
+                    @endforeach
+                @endforeach
+                @foreach($allCountries as $country)
+                    @if(isset($current))
+                        @if($current->id !== $country->id)
+                            <option value="{{ $country->id }}">{{ $country->name_of_country }}</option>
+                        @endif
+                    @else
+                        <option value="{{ $country->id }}">{{ $country->name_of_country }}</option>
+                    @endif
                 @endforeach
             </select>
         </div>
@@ -26,5 +37,14 @@
     .back-to-site {
         float: right;
         margin-right: 10px;
+    }
+
+    label{
+        text-transform: uppercase;
+    }
+
+    option[selected] {
+        font-weight: bold;
+        background-color: #d9edf7;
     }
 </style>
